@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-proactive-gate"
+version = "0.1.0"
+description = "A policy gate for proactive agent messages: send, defer, or stay silent."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+keywords = ["agent", "proactive", "notification", "policy", "llm"]
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+
+[project.urls]
+Homepage = "https://github.com/YOU/agent-proactive-gate"
+
+[tool.setuptools]
+packages = ["proactive_gate"]
