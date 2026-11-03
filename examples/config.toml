@@ -1,0 +1,49 @@
+# agent-proactive-gate example config
+# Every path is relative to the directory you run from (or absolute).
+
+[inputs]
+facts = "examples/synthetic-memory/facts.md"
+lessons = "examples/synthetic-memory/lessons.md"
+diary_dir = "examples/synthetic-memory/diary"
+conversations_dir = "examples/synthetic-memory/conversations"
+
+# NOTE: conversation JSONL field names are currently fixed to
+# role / content / occurredAt. They are not configurable yet.
+
+[policy]
+timezone = "Asia/Shanghai"
+quiet_start = 23      # hour, inclusive
+quiet_end = 9         # hour, exclusive
+max_per_day = 1
+max_per_7d = 3
+cooldown_after_user_min = 13  # quiet gap on BOTH sides before speaking;
+                              # the old 90 counted only the user, which starved the gate
+cooldown_after_unanswered_min = 4320  # 72h
+max_consecutive_unanswered = 2        # pause entirely after 2 in a row
+activity_window_days = 28
+threshold = 0.55
+
+[policy.weights]
+relevance = 0.35
+specificity = 0.25
+timeliness = 0.20
+novelty = 0.10
+chatability = 0.10
+reply_burden = -0.30
+
+[paths]
+state = "state"
+decision_log = "state/decisions.jsonl"
+
+[generator]
+# called as: <command...> "<prompt>"
+# must print one line, or "--" to decline this round
+command = ["python3", "examples/mock-generator.py"]
+timeout = 200
+# optional: KEY=VALUE file injected into the generator's environment.
+# Keep secrets out of this config file.
+# env_file = "./.env.generator"
+
+[sender]
+command = ["python3", "examples/mock-sender.py"]
+timeout = 120
